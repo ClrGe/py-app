@@ -16,8 +16,7 @@ rows = cursor.execute("SELECT * FROM Frequentation").fetchall()
 
 class Users(Resource):
     def get(self):
-        data = pd.read_csv('../data/frequentation_gares_2015_2021.csv')  # read CSV
-        data = data.to_dict()  # convert dataframe to dictionary
+        data = cursor.execute("SELECT * FROM Frequentation").fetchall()
         return {'data': data}, 200  # return data and 200 OK code
     
 class Locations(Resource):
