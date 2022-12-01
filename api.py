@@ -3,29 +3,23 @@ import sqlite3
 from fastapi import FastAPI
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
-import pandas as pd
+from flask import render_template, redirect, request    
 import ast
 
 app = Flask(__name__)
-api = Api(app)
 
-# retrieve or create sqlite3 db
-connection = sqlite3.connect("DataAnalyzer.db")
-# write csv data to a new table
-freq_data = pd.read_csv('frequentation_gares_2015_2021.csv')
-freq_data.to_sql('Frequentation', connection, if_exists='replace', index=False)
+def get_db_connection():
+    connection = sqlite3.connect('DataAnalyzer.db', check_same_thread=False)
+    connection.row_factory = sqlite3.Row
+    return connection
 
-cursor = connection.cursor()
+@app.route('/')
+def index():
+    connection = get_db_connection()
+    gares = connection.execute("SELECT * FROM Frequentation").fetchall()
+    connection.close()
+    return render_template('index.html', gares=gares)
 
-rows = cursor.execute("SELECT * FROM Frequentation").fetchall()
-
-class Data(Resource):
-    def get(self):
-        data = cursor.execute("SELECT * FROM Frequentation").fetchall()
-        return {'data': data}, 200  # return data and 200 OK code
-
-
-api.add_resource(Data, '/db')
-
-if __name__ == '__main__':
-    app.run()  # run Flask app
+# debug
+if __name__ == "__main__":
+    app.run(debug=True)

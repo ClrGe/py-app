@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Gares {% endblock %}</h1>
+    {% for gare in gares %}
+        <div class='post'>
+            <p>{{ gare['code_uic_complet'] }}</p>
+            <h2>{{ gare['code_postal'] }}</h2>
+            <p>{{ gare['nom_gare'] }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
