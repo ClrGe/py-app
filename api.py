@@ -9,22 +9,23 @@ import ast
 app = Flask(__name__)
 api = Api(app)
 
-# retrieve and use local sqlite db
+# retrieve or create sqlite3 db
 connection = sqlite3.connect("DataAnalyzer.db")
+# write csv data to a new table
+freq_data = pd.read_csv('frequentation_gares_2015_2021.csv')
+freq_data.to_sql('Frequentation', connection, if_exists='replace', index=False)
+
 cursor = connection.cursor()
+
 rows = cursor.execute("SELECT * FROM Frequentation").fetchall()
 
-class Users(Resource):
+class Data(Resource):
     def get(self):
         data = cursor.execute("SELECT * FROM Frequentation").fetchall()
         return {'data': data}, 200  # return data and 200 OK code
-    
-class Locations(Resource):
-    rows = cursor.execute("SELECT * FROM Frequentation").fetchall()
-    pass
-    
-api.add_resource(Users, '/db')  # '/users' is our entry point for Users
-api.add_resource(Locations, '/locations')  # and '/locations' is our entry point for Locations
+
+
+api.add_resource(Data, '/db')
 
 if __name__ == '__main__':
-    app.run()  # run our Flask app
+    app.run()  # run Flask app
