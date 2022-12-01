@@ -13,7 +13,7 @@ def get_db_connection():
     connection.row_factory = sqlite3.Row
     return connection
 
-@app.route('/')
+@app.route('/db')
 def index():
     connection = get_db_connection()
     gares = connection.execute("SELECT * FROM Frequentation").fetchall()
