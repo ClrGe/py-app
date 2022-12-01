@@ -1,12 +1,36 @@
-{% extends 'base.html' %}
+<!doctype html>
+<head>
+    <meta charset="UTF-8">
+    <title>Fréquentation gares</title>
+    <style>
+        tr {
+            padding: 10px;
+            margin: 5px;
+            background-color: #f3f3f3
+        }
 
-{% block content %}
-    <h1>{% block title %} Gares {% endblock %}</h1>
-    {% for gare in gares %}
-        <div class='post'>
-            <p>{{ gare['code_uic_complet'] }}</p>
-            <h2>{{ gare['code_postal'] }}</h2>
-            <p>{{ gare['nom_gare'] }}</p>
-        </div>
-    {% endfor %}
-{% endblock %}
+        nav a {
+            color: #000000;
+            font-size: 3em;
+            margin-left: 50px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<html>
+   <body>
+    <h1>Gares</h1>
+    <div class='post'>
+
+        <table border = 0> 
+            {% for row in rows %}
+                <tr>
+                    <td><p>{{row[0]}}</p></td>
+
+                </tr>
+            {% endfor %}
+
+            </table>
+    </div>
+    </body>
+</html>
