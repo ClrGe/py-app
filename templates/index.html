@@ -23,9 +23,14 @@
     <div class='post'>
 
         <table border = 0> 
+            <thead>
+                <td>Code UIc</td>
+
+            </thead>
+
             {% for row in rows %}
                 <tr>
-                    <td><p>{{row[0]}}</p></td>
+                    <td><p>{{row[0][0]}}</p></td>
 
                 </tr>
             {% endfor %}
