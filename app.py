@@ -33,13 +33,14 @@ def getData():
 
     connection = get_db_connection()
     connection.row_factory = sqlite3.Row
+    cursor = connection.cursor()
 
-    cursor = connection.execute("SELECT * FROM Referentiel").fetchall()
+    cursor.execute("SELECT * FROM Referentiel")
     result = cursor.fetchall()
     jsonResult = json.dumps(result, indent=4, sort_keys=True, default=str)
 
     return json.loads(jsonResult), 200
 
-# debug
+# debugs
 if __name__ == "__main__":
     app.run(debug=True)
