@@ -35,7 +35,7 @@ def getData():
     connection.row_factory = sqlite3.Row
     cursor = connection.cursor()
 
-    cursor.execute("SELECT * FROM Referentiel")
+    cursor.execute("SELECT * FROM Referentiel LIMIT 1")
     result = cursor.fetchall()
     jsonResult = json.dumps(result, indent=4, sort_keys=True, default=str)
 
