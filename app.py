@@ -5,7 +5,9 @@ import json
 import logging
 from datetime import date
 
-#logging.basicConfig(filename='./logs/logs_'+d1+'.log', level=logging.INFO, format=f'%(asctime)s %(levelname)s : %(message)s')
+today = date.today()
+d1 = today.strftime("%d%m%Y")
+logging.basicConfig(filename='./data/logs_'+d1+'.log', level=logging.INFO, format=f'%(asctime)s %(levelname)s : %(message)s')
 
 app = Flask(__name__)
 
