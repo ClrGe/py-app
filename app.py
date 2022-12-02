@@ -5,7 +5,7 @@ from flask_restful import Resource, Api, reqparse
 app = Flask(__name__)
 
 def get_db_connection():
-    connection = sqlite3.connect('DataAnalyzer.db')
+    connection = sqlite3.connect('./db/DataAnalyzer.db')
     connection.row_factory = sqlite3.Row
     return connection
 
