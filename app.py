@@ -23,7 +23,7 @@ def get_db_connection():
 def db():
     connection = get_db_connection()
     connection.row_factory = sqlite3.Row
-    rows = connection.execute("SELECT * FROM test")
+    rows = connection.execute("SELECT * FROM referentiel")
 
     return render_template('index.html', rows=rows.fetchall())
 
@@ -34,11 +34,9 @@ def getData():
     connection = sqlite3.connect('data/DataAnalyzer.db')
     cur = connection.cursor()
 
-    cur.execute("SELECT * FROM test")
-    
+    cur.execute("SELECT * FROM referentiel")
     
     i = 0
-
 
     while True:
         i += 1
