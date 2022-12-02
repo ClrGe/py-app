@@ -66,7 +66,7 @@ def search():
 
     args = request.args
     cp = args.get("zipcode")
-    cur.execute("SELECT * FROM referentiel WHERE [fields.adresse_cp] = "+cp)
+    cur.execute("SELECT [fields.gare_alias_libelle_noncontraint], [fields.gare_regionsncf_libelle], [fields.adresse_cp],  [fields.departement_libellemin], [fields.uic_code] FROM referentiel WHERE [fields.adresse_cp] = "+cp)
     
     i = 0
 
