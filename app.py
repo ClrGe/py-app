@@ -9,7 +9,7 @@ from datetime import date
 
 app = Flask(__name__)
 
-api = Api(app=app, version="1.0", doc="/db/api", title="Data analyzer DB service", description="Sqlite3 / Python-Flask", default="API", default_label='', validate=True)
+#api = Api(app=app, version="1.0", doc="/db/api", title="Data analyzer DB service", description="Sqlite3 / Python-Flask", default="API", default_label='', validate=True)
 
 def get_db_connection():
     connection = sqlite3.connect('./db/DataAnalyzer.db')
