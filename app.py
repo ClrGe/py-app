@@ -29,11 +29,12 @@ def db():
 
 
 @app.route('/db/json', methods=["GET"])
-def getData(self):
+def getData():
+
     connection = get_db_connection()
     connection.row_factory = sqlite3.Row
 
-    cursor = self.connection.execute("SELECT * FROM Referentiel").fetchall()
+    cursor = connection.execute("SELECT * FROM Referentiel").fetchall()
     jsonResult = json.dumps(cursor, indent=4, sort_keys=True, default=str)
 
     return json.loads(jsonResult), 200
