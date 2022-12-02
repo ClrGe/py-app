@@ -16,6 +16,7 @@ app = Flask(__name__)
 def get_db_connection():
     connection = sqlite3.connect('data/DataAnalyzer.db')
     connection.row_factory = sqlite3.Row
+
     return connection
 
 @app.route('/db')
@@ -27,11 +28,14 @@ def db():
     return render_template('index.html', rows=rows.fetchall())
 
 @app.route('/db/json', methods=["GET"])
-def jsonData():
+def getData(self):
     connection = get_db_connection()
-    rows = connection.execute("SELECT * FROM Referentiel").fetchall()
+    cursor = connection.cursor()
+
+    rows = cursor.execute("SELECT * FROM Referentiel").fetchall()
     jsonResult = json.dumps(rows, indent=4, sort_keys=True, default=str)
-    return jsonify(jsonResult)
+
+    return json.loads(jsonResult), 200
 
 # debug
 if __name__ == "__main__":
