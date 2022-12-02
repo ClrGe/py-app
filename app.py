@@ -23,7 +23,7 @@ def get_db_connection():
 def db():
     connection = get_db_connection()
     connection.row_factory = sqlite3.Row
-    rows = connection.execute("SELECT * FROM Referentiel")
+    rows = connection.execute("SELECT * FROM test")
 
     return render_template('index.html', rows=rows.fetchall())
 
@@ -31,15 +31,22 @@ def db():
 @app.route('/db/json', methods=["GET"])
 def getData():
 
-    connection = get_db_connection()
-    connection.row_factory = sqlite3.Row
-    cursor = connection.cursor()
+    connection = sqlite3.connect('data/DataAnalyzer.db')
+    cur = connection.cursor()
 
-    sql = "SELECT * FROM Referentiel"
-    c = list(connection.execute(sql))
-    jsonResult = json.dumps(c, indent=4, sort_keys=True, default=str)
+    cur.execute("SELECT * FROM test")
+    
+    
+    i = 0
 
-    return json.loads(jsonResult), 200
+
+    while True:
+        i += 1
+        print(i)
+        rslt = cur.fetchall()
+        jsonResult = json.dumps(rslt, indent=4, sort_keys=True)
+
+        return json.loads(jsonResult), 200
 
 # debugs
 if __name__ == "__main__":

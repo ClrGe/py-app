@@ -24,13 +24,22 @@
 
         <table border = 0> 
             <thead>
-                <td>Code UIc</td>
-
+                <td>Dataset</td>
+                <td>Code UIC</td>
+                <td>Libellé</td>
+                <td>Code commune</td>
+                <td>Code postal</td>
+                <td>Gare</td>
             </thead>
 
             {% for row in rows %}
                 <tr>
                     <td><p>{{row[0]}}</p></td>
+                    <td><p>{{row[10]}}</p></td>
+                    <td><p>{{row[6]}}</p></td>
+                    <td><p>{{row[9]}}</p></td>
+                    <td><p>{{row[13]}}</p></td>
+                    <td><p>{{row[5]}}</p></td>
 
                 </tr>
             {% endfor %}
