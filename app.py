@@ -35,24 +35,43 @@ def get_db_connection():
 def db():
     connection = get_db_connection()
     connection.row_factory = sqlite3.Row
-    rows = connection.execute("SELECT * FROM referentiel")
+    rows = connection.execute("SELECT code_uic FROM referentiel")
 
     return render_template('index.html', rows=rows.fetchall())
 
 
-@app.route('/db/json', methods=["GET"])
+@app.route('/db/all', methods=["GET"])
 def getData():
 
     connection = sqlite3.connect('data/DataAnalyzer.db')
     cur = connection.cursor()
 
-    cur.execute("SELECT * FROM referentiel")
+    cur.execute("SELECT [fields.gare_alias_libelle_noncontraint], [fields.adresse_cp],  [fields.departement_libellemin], [fields.uic_code] FROM referentiel")
     
     i = 0
 
     while True:
         i += 1
-        print(i)
+        rslt = cur.fetchall()
+        jsonResult = json.dumps(rslt, indent=4, sort_keys=True)
+
+        return json.loads(jsonResult), 200
+
+
+@app.route('/db/search', methods=["GET"])
+def search():
+
+    connection = sqlite3.connect('data/DataAnalyzer.db')
+    cur = connection.cursor()
+
+    args = request.args
+    cp = args.get("zipcode")
+    cur.execute("SELECT * FROM referentiel WHERE [fields.adresse_cp] = "+cp)
+    
+    i = 0
+
+    while True:
+        i += 1
         rslt = cur.fetchall()
         jsonResult = json.dumps(rslt, indent=4, sort_keys=True)
 
