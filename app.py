@@ -27,6 +27,7 @@ def db():
 
     return render_template('index.html', rows=rows.fetchall())
 
+
 @app.route('/db/json', methods=["GET"])
 def getData():
     connection = get_db_connection()
