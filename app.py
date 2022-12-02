@@ -33,8 +33,8 @@ def getData():
     connection = get_db_connection()
     cursor = connection.cursor()
 
-    rows = cursor.execute("SELECT * FROM Referentiel").fetchall()
-    jsonResult = json.dumps(rows, indent=4, sort_keys=True, default=str)
+    data = cursor.execute("SELECT * FROM Referentiel")
+    jsonResult = json.dumps(data, indent=4, sort_keys=True, default=str)
 
     return json.loads(jsonResult), 200
 
