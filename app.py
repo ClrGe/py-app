@@ -73,7 +73,7 @@ def search():
     while True:
         i += 1
         rslt = cur.fetchall()
-        jsonResult = json.dumps(rslt, indent=4, sort_keys=True)
+        jsonResult = json.dumps(rslt, indent=10, sort_keys=True)
 
         return json.loads(jsonResult), 200
 
