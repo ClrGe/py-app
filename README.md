@@ -1,3 +1,5 @@
+JMG-CONSEIL 2022
+
 # Data analysis service - Python / Sqlite3
 
 ### Install :
