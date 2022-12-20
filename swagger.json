@@ -1,9 +1,9 @@
 {
     "openapi": "3.0.0",
     "info": {
-      "description": "Data analysis microservices",
+      "description": "Service serving data from a database to a REST API",
       "version": "1.0.0",
-      "title": "Python SQLITE3",
+      "title": "Data Analyzer",
       "contact": {
         "email": "cg@jmg-conseil.eu"
       }
@@ -57,12 +57,12 @@
             }
         }
       },
-      "/api/find": {
+      "/api/search{{zipcode}}": {
         "get": {
             "tags": [
                 "GET"
             ],
-            "description": "Display all stations matching query.",
+            "description": "Display all stations matching query (ex : https://lab.jmg-conseil.eu/db/search?zipcode=75007)",
             "parameters": [
                 {
                     "name": "zipcode",

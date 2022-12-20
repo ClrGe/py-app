@@ -13,8 +13,8 @@ logging.basicConfig(filename='./data/logs_'+d1+'.log', level=logging.INFO, forma
 app = Flask(__name__)
 
 ### swagger specific ###
-SWAGGER_URL = '/db/swagger'
-API_URL = '/static/swagger.json'
+SWAGGER_URL = '/db/docs'
+API_URL = "/db/swgdef"
 SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
     SWAGGER_URL,
     API_URL,
@@ -30,6 +30,9 @@ def get_db_connection():
     connection.row_factory = sqlite3.Row
 
     return connection
+
+@app.route('/db/swgdef')
+def swgdef(): return open('./swagger.json')
 
 @app.route('/db')
 def db():
@@ -65,9 +68,15 @@ def search():
     cur = connection.cursor()
 
     args = request.args
+    regionquery = args.get("region")
     cp = args.get("zipcode")
-    cur.execute("SELECT [fields.gare_alias_libelle_noncontraint], [fields.gare_regionsncf_libelle], [fields.adresse_cp],  [fields.departement_libellemin], [fields.uic_code] FROM referentiel WHERE [fields.adresse_cp] = "+cp)
     
+    if not regionquery:
+        cur.execute("SELECT [fields.gare_alias_libelle_noncontraint], [fields.gare_regionsncf_libelle], [fields.adresse_cp],  [fields.departement_libellemin], [fields.uic_code] FROM referentiel WHERE [fields.adresse_cp] = "+cp)
+    if not cp:
+        region = regionquery.upper()
+        cur.execute("SELECT [fields.gare_alias_libelle_noncontraint], [fields.gare_regionsncf_libelle], [fields.adresse_cp],  [fields.departement_libellemin], [fields.uic_code] FROM referentiel WHERE [fields.gare_regionsncf_libelle] = '"+region+"'")
+
     i = 0
 
     while True:
