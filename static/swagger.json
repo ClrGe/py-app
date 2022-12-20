@@ -6,10 +6,92 @@
       "title": "Python SQLITE3",
       "contact": {
         "email": "cg@jmg-conseil.eu"
+      }
+    },
+    "servers": [
+        {
+          "url": "https://lab.jmg-conseil.eu",
+          "description": "Development server"
+        }
+    ],
+    "paths": {
+      "/db/docs": {
+          "get": {
+              "tags": [
+                  "DOCS"
+              ],
+              "description": "OpenAPI 3.0 documentation",
+              "responses": {
+                  "200": {
+                      "description": "Success"
+                  },
+                  "401": {
+                      "description": "Unauthorized"
+                  },
+                  "403": {
+                      "description": "Forbidden"
+                  }
+              }
+          }
       },
-      "license": {
-        "name": "MIT",
-        "url": "https://opensource.org/licenses/MIT"
+      "/db/all": {
+        "get": {
+            "tags": [
+                "GET"
+            ],
+            "description": "List all stations.",
+            "responses": {
+                "200": {
+                    "description": "Success: return results",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "403": {
+                    "description": "Forbidden"
+                }
+            }
+        }
+      },
+      "/api/find": {
+        "get": {
+            "tags": [
+                "GET"
+            ],
+            "description": "Display all stations matching query.",
+            "parameters": [
+                {
+                    "name": "zipcode",
+                    "in": "query",
+                    "description": "Requested zipcode",
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Success",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "Zipcode not found"
+                },
+                "403": {
+                    "description": "Forbidden"
+                }
+            }
+        }
       }
     }
   }
