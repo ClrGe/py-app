@@ -1,0 +1,97 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "Service serving data from a database to a REST API",
+      "version": "1.0.0",
+      "title": "Data Analyzer",
+      "contact": {
+        "email": "cg@jmg-conseil.eu"
+      }
+    },
+    "servers": [
+        {
+          "url": "https://lab.jmg-conseil.eu",
+          "description": "Development server"
+        }
+    ],
+    "paths": {
+      "/db/docs": {
+          "get": {
+              "tags": [
+                  "DOCS"
+              ],
+              "description": "OpenAPI 3.0 documentation",
+              "responses": {
+                  "200": {
+                      "description": "Success"
+                  },
+                  "401": {
+                      "description": "Unauthorized"
+                  },
+                  "403": {
+                      "description": "Forbidden"
+                  }
+              }
+          }
+      },
+      "/db/all": {
+        "get": {
+            "tags": [
+                "GET"
+            ],
+            "description": "List all stations.",
+            "responses": {
+                "200": {
+                    "description": "Success: return results",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "403": {
+                    "description": "Forbidden"
+                }
+            }
+        }
+      },
+      "/api/search{{zipcode}}": {
+        "get": {
+            "tags": [
+                "GET"
+            ],
+            "description": "Display all stations matching query (ex : https://lab.jmg-conseil.eu/db/search?zipcode=75007)",
+            "parameters": [
+                {
+                    "name": "zipcode",
+                    "in": "query",
+                    "description": "Requested zipcode",
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Success",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "Zipcode not found"
+                },
+                "403": {
+                    "description": "Forbidden"
+                }
+            }
+        }
+      }
+    }
+  }
