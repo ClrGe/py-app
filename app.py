@@ -1,5 +1,7 @@
+#----------------------------------------------------------------------------------------------------------
 # This code creates a web server using the Flask framework,
 # and exposes a route '/db/search' that performs a search in the SQLite3 database 'DataAnalyzer.db'
+#----------------------------------------------------------------------------------------------------------
 
 import sqlite3
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -12,13 +14,27 @@ import collections
 from datetime import date
 from dotenv import load_dotenv
 
-app = Flask(__name__)
+#----------------------------------------------------------------------------------------------------------
 
 load_dotenv()
 
 PORT = os.getenv('PORT')
 HOST = os.getenv('HOST')
 DB = os.getenv('DB')
+SWAGGER_URL = '/db/docs'
+API_URL = "/db/swgdef"
+SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "Data Analyzer"
+    }
+)
+
+#----------------------------------------------------------------------------------------------------------
+
+app = Flask(__name__)
+app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
 
 @app.route('/db/search', methods=["GET"])
 #This function performs a search in the SQLite3 database 'DataAnalyzer.db' based on the parameters passed in the request query string, such as 'region' and 'zipcode'
@@ -43,7 +59,6 @@ def search():
     while True:
         i += 1
         rows = cur.fetchall()
-
         rowarray_list = []
 
         for row in rows:
@@ -67,22 +82,10 @@ def search():
 
         return json.dumps(objects_list), 200
         # Returning the data in JSON format
-        
-### swagger specific ###
-SWAGGER_URL = '/db/docs'
-API_URL = "/db/swgdef"
-SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
-    SWAGGER_URL,
-    API_URL,
-    config={
-        'app_name': "Data Analyzer"
-    }
-)
-app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
+
 
 @app.route('/db/swgdef')
 def swgdef(): return open('./swagger.json')
-### end swagger specific ###
 
 @app.route('/db/test')
 class TestApp(unittest.TestCase):
@@ -91,7 +94,9 @@ class TestApp(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'nom_gare', response.data)
         self.assertIn(b'reg')
-                      
-# debugs
+             
+             
+#----------------------------------------------------------------------------------------------------------         
+
 if __name__ == "__main__":
     app.run(port = PORT)
