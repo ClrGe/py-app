@@ -1,3 +1,6 @@
 Flask
 pandas
 flask_restful
+dotenv
+flask_swagger_ui
+unittest
